@@ -978,7 +978,7 @@
         <WhichLocation Value="CasterUnit"/>
         <Flags index="Channeled" value="1"/>
         <Flags index="PersistUntilDestroyed" value="1"/>
-<!--        <FinalEffect value="AP_MedivacHealIssueStopOrder"/>-->
+        <!--        <FinalEffect value="AP_MedivacHealIssueStopOrder"/>-->
         <PeriodicValidator value="AP_HealScanPeriodicCombine"/>
         <PeriodicEffectArray value="AP_MedivacHealSearch"/>
         <PeriodicPeriodArray value="0.0625"/>
@@ -1042,7 +1042,7 @@
     </CEffectCreatePersistent>
     <CEffectSet id="AP_MedivacHealIssueOrderSet">
         <EditorCategories value="Race:Terran"/>
-<!--        <EffectArray value="AP_MedivacHealIssueStopOrder"/>-->
+        <!--        <EffectArray value="AP_MedivacHealIssueStopOrder"/>-->
         <EffectArray value="AP_MedivacHealIssueHealOrderDelay"/>
     </CEffectSet>
     <CEffectIssueOrder id="AP_MedivacHealIssueStopOrder">
@@ -1507,6 +1507,26 @@
         <EffectArray value="AP_HyperjumpTeleport"/>
         <EffectArray value="AP_HyperjumpTeleportAB"/>
     </CEffectSet>
+    <CEffectTeleport id="AP_SkylordJump">
+        <EditorCategories value="Race:Protoss"/>
+        <ClearQueuedOrders value="0"/>
+        <PlacementAround Value="CasterUnit"/>
+        <PlacementRange value="8"/>
+        <Range value="8"/>
+        <WhichUnit Value="Caster"/>
+        <TargetLocation Value="TargetPoint"/>
+    </CEffectTeleport>
+    <CEffectSet id="AP_SkylordJumpSet">
+        <EditorCategories value="Race:Protoss"/>
+        <TargetLocationType value="Point"/>
+        <EffectArray value="AP_SkylordJump"/>
+        <EffectArray value="AP_SkylordJumpAB"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_SkylordJumpAB">
+        <EditorCategories value="Race:Protoss"/>
+        <Behavior value="AP_SkylordJump"/>
+        <WhichUnit Value="Caster"/>
+    </CEffectApplyBehavior>
     <CEffectTeleport id="AP_HyperjumpTeleport">
         <EditorCategories value="Race:Terran"/>
         <WhichUnit Value="Caster"/>
@@ -2958,7 +2978,7 @@
         <KindSplash value="Splash"/>
         <VitalBonus index="Shields" value="40"/>
         <Death value="Blast"/>
-        <SearchFilters value="-;Player,Ally,Neutral,Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CEffectDamage>
     <CEffectLaunchMissile id="AP_WidowMineLM">
         <EditorCategories value="Race:Zerg"/>
@@ -4181,7 +4201,7 @@
     <CEffectSet id="AP_DevastatorTurretSet">
         <EditorCategories value="Race:Terran"/>
         <EffectArray value="AP_DevastatorTurretDamage"/>
-        <EffectArray index="1" value=""/>
+        <EffectArray value=""/>
     </CEffectSet>
     <CEffectDamage id="AP_DevastatorTurretDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Terran"/>
@@ -4199,7 +4219,7 @@
     </CEffectApplyBehavior>
     <CEffectEnumArea id="AP_SensorTowerRangeAuraSearch">
         <EditorCategories value="Race:Terran"/>
-        <SearchFilters value="Visible,Structure;Self,Neutral,Enemy,Missile,Stasis,Dead,Invulnerable"/>
+        <SearchFilters value="Structure,Visible;Self,Neutral,Enemy,Missile,Stasis,Dead,Invulnerable"/>
         <AreaArray Radius="12" Effect="AP_SensorTowerRangeBuffAB"/>
     </CEffectEnumArea>
     <CEffectApplyBehavior id="AP_SensorTowerRangeBuffAB">
@@ -4805,8 +4825,8 @@
         <EditorCategories value="Race:Zerg"/>
         <SearchFilters value="-;Missile,Stasis,Dead,Hidden"/>
         <AreaArray Radius="0.5" Effect="AP_RavagerCorrosiveBileSet"/>
-<!--        <AINotifyFlags index="HurtFriend" value="1"/>-->
-<!--        <AINotifyFlags index="HurtEnemy" value="1"/>-->
+        <!--        <AINotifyFlags index="HurtFriend" value="1"/>-->
+        <!--        <AINotifyFlags index="HurtEnemy" value="1"/>-->
     </CEffectEnumArea>
     <CEffectEnumArea id="AP_RavagerCorrosiveBileWarningDummySearch">
         <EditorCategories value="Race:Zerg"/>
@@ -9914,7 +9934,7 @@
         <SearchFlags index="ExtendByUnitRadius" value="1"/>
     </CEffectEnumArea>
     <CEffectEnumArea id="AP_PredatorShadowFurySearch" parent="AP_DarkTemplarShadowFurySearch">
-        <LaunchLocation Effect="AP_PredatorShadowFuryPersistent" Value="TargetPoint"/>
+        <LaunchLocation Effect="AP_PredatorShadowFuryPersistent"/>
         <ImpactLocation Effect="AP_PredatorShadowFuryPersistent"/>
     </CEffectEnumArea>
     <CEffectCreatePersistent id="AP_DarkTemplarShadowFuryTeleport1CP">
@@ -10977,7 +10997,7 @@
         <SearchFlags index="ExtendByUnitRadius" value="1"/>
     </CEffectEnumArea>
     <CEffectEnumArea id="AP_BansheeMengskCloakingFieldSearch" parent="AP_ArbiterMPCloakingFieldSearch">
-        <AreaArray index="0" Radius="6"/>
+        <AreaArray index="0" Radius="6" Effect="AP_ArbiterMPCloakingFieldApply"/>
     </CEffectEnumArea>
     <CEffectApplyBehavior id="AP_ArbiterMPRecallApplyPostRecallBehavior">
         <ValidatorArray index="0" value=""/>
@@ -11879,14 +11899,14 @@
     </CEffectTeleport>
     <CEffectDamage id="AP_PurificationNovaDamage">
         <ValidatorArray value="AP_DisruptorDamageFilter"/>
+        <ValidatorArray value="AP_NoRestrainedDestruction"/>
+        <ValidatorArray value="AP_NoDisruptorPerfectedPower"/>
         <EditorCategories value=""/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
         <ShieldBonus value="55"/>
         <Amount value="145"/>
         <Death value="Electrocute"/>
-        <ValidatorArray value="AP_NoRestrainedDestruction"/>
-        <ValidatorArray value="AP_NoDisruptorPerfectedPower"/>
     </CEffectDamage>
     <CEffectDamage id="AP_PurificationNovaDamagePerf">
         <ValidatorArray value="AP_DisruptorDamageFilter"/>
@@ -16096,7 +16116,7 @@
     </CEffectSwitch>
     <CEffectCreatePersistent id="AP_HHVikingRocketsBurstPersistent">
         <EditorCategories value="Race:Terran"/>
-<!--        <PeriodCount value="5"/>-->
+        <!--        <PeriodCount value="5"/>-->
         <PeriodCount value="2"/>
         <PeriodicEffectArray value="AP_HHVikingRocketsALM"/>
         <PeriodicEffectArray value="AP_HHVikingRocketsBLM"/>
@@ -17797,9 +17817,7 @@
         <PeriodicPeriodArray value="0.125"/>
         <ValidatorArray value="noMarkers"/>
     </CEffectCreatePersistent>
-    <CEffectEnumArea id="ContaminateDummy">
-        <EditorCategories value="Race:Zerg"/>
-    </CEffectEnumArea>
+    <CEffectEnumArea id="ContaminateDummy"/>
     <CEffectLaunchMissile id="AP_ContaminateLaunchMissile">
         <ValidatorArray index="0" value=""/>
         <EditorCategories value="Race:Zerg"/>
@@ -18438,7 +18456,6 @@
         <EditorCategories value="Race:Protoss"/>
     </CEffectUseMagazine>
     <CEffectApplyBehavior id="AP_VoidRayPurifierTargetAB">
-        <WhichUnit Value="Target"/>
         <Behavior value="AP_VoidRayPurifierTarget"/>
     </CEffectApplyBehavior>
     <CEffectSet id="AP_VoidRayPurifierSecondaryBeamLaunchSet">
@@ -18447,7 +18464,6 @@
         <EffectArray value="AP_VoidRayPurifierSecondaryBeamErraticMovement"/>
     </CEffectSet>
     <CEffectApplyBehavior id="AP_DamagedRecentlyByVoidRayPurifierAB">
-        <WhichUnit Value="Target"/>
         <Behavior value="AP_DamagedRecentlyByVoidRayPurifier"/>
     </CEffectApplyBehavior>
     <CEffectApplyBehavior id="AP_VoidRayPurifierSecondaryBeamErraticMovement">
@@ -18758,7 +18774,8 @@
     </CEffectEnumArea>
     <CEffectDamage id="AP_LeapHunterlingDamage">
         <EditorCategories value="Race:Zerg"/>
-        <Amount value="20"/> <!--reduced from 100 vanilla-->
+        <Amount value="20"/>
+        <!--reduced from 100 vanilla-->
     </CEffectDamage>
     <CEffectApplyBehavior id="AP_LeapHunterlingStun">
         <EditorCategories value="Race:Zerg"/>
@@ -19108,7 +19125,8 @@
         <ValidatorArray value="TargetIsGround"/>
         <ValidatorArray value="AP_IsSIInfestedTrooperCombineOrIsSIInfestedCivilianOrIsAP_InfestorTerranOrIsSIInfestedMarineCombineCombine"/>
         <ValidatorArray value="AP_StukovInfestedSiegeTankAmmoLT8"/>
-        <!--ValidatorArray value="AP_NoInfestedCivDisableJump"/--> <!--disabled since this unit doesn't exist yet-->
+        <!--ValidatorArray value="AP_NoInfestedCivDisableJump"/-->
+        <!--disabled since this unit doesn't exist yet-->
         <ValidatorArray value="AP_NoYoink"/>
         <EditorCategories value="Race:Zerg"/>
         <EffectArray value="AP_StukovInfestedSiegeTankAmmoRestock"/>
@@ -19147,7 +19165,8 @@
     </CEffectLaunchMissile>
     <CEffectSet id="AP_StukovInfestedSiegeTankAmmoRestockSet">
         <EditorCategories value="Race:Zerg"/>
-        <!--EffectArray value="StukovInfestedSiegeTankAmmoRemoveBroodlingSpawnBR"/--> <!--disabled since upgrade isn't being added yet-->
+        <!--EffectArray value="StukovInfestedSiegeTankAmmoRemoveBroodlingSpawnBR"/-->
+        <!--disabled since upgrade isn't being added yet-->
         <EffectArray value="AP_StukovInfestedSiegeTankAmmoRestockKillTarget"/>
         <EffectArray value="AP_StukovInfestedSiegeTankRestoreAmmo"/>
         <EffectArray value="AP_StukovInfestedSiegeTankRestoreAmmoHeal"/>
@@ -19851,7 +19870,6 @@
         <EditorCategories value="Race:Terran"/>
         <ArmorReduction value="0"/>
         <Kind value="Ranged"/>
-        <Amount value="0"/>
         <AttributeBonus index="Mechanical" value="11"/>
     </CEffectDamage>
     <CEffectDamage id="AP_VikingMengskGroundMassiveDamageMechanicalBonusL2" parent="AP_VikingMengskGroundMassiveDamageMechanicalBonus">
@@ -19975,7 +19993,7 @@
         <SearchFilters value="Air;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CEffectDamage>
     <CEffectLaunchMissile id="AP_LanzerTorpedoesMengskLM">
-<!--        <ValidatorArray index="0" value="RangeCheckLE15"/>-->
+        <!--        <ValidatorArray index="0" value="RangeCheckLE15"/>-->
         <EditorCategories value="Race:Terran"/>
         <ImpactEffect value="AP_LanzerTorpedoesMengskDamage"/>
         <AmmoUnit value="AP_VikingMengskFighterWeapon"/>
@@ -20075,7 +20093,7 @@
         <Marker Link="Effect/CrucioShockCannonBlast"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-<!--        <AttributeBonus index="Armored" value="30"/>-->
+        <!--        <AttributeBonus index="Armored" value="30"/>-->
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
@@ -20150,7 +20168,7 @@
         <Marker Link="Effect/CrucioShockCannonDirected"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-<!--        <AttributeBonus index="Armored" value="30"/>-->
+        <!--        <AttributeBonus index="Armored" value="30"/>-->
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
@@ -20217,7 +20235,7 @@
         <AreaArray Radius="1.25" Effect="AP_SiegeTankMengskSiegedStunSet"/>
     </CEffectEnumArea>
     <CEffectEnumArea id="AP_MedivacMengskSiegeTankAirliftImprovedAoEStunSearch" parent="AP_MedivacMengskSiegeTankAirliftStunSearch">
-        <AreaArray index="0" Radius="1.75"/>
+        <AreaArray index="0" Radius="1.75" Effect="AP_SiegeTankMengskSiegedStunSet"/>
     </CEffectEnumArea>
     <CEffectSet id="AP_SiegeTankMengskSiegedStunSet">
         <ValidatorArray value="AP_NoSiegeTankMengskSiegedStunImmunity"/>
@@ -20254,7 +20272,7 @@
         <Marker Link="Effect/CrucioShockCannonDirected"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-<!--        <AttributeBonus index="Armored" value="30"/>-->
+        <!--        <AttributeBonus index="Armored" value="30"/>-->
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
@@ -20288,7 +20306,7 @@
         <Marker Link="Effect/CrucioShockCannonBlast"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-<!--        <AttributeBonus index="Armored" value="30"/>-->
+        <!--        <AttributeBonus index="Armored" value="30"/>-->
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
@@ -20325,7 +20343,7 @@
         <Marker Link="Effect/CrucioShockCannonBlast"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-<!--        <AttributeBonus index="Armored" value="25"/>-->
+        <!--        <AttributeBonus index="Armored" value="25"/>-->
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
@@ -20362,7 +20380,7 @@
         <Marker Link="Effect/CrucioShockCannonDirected"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-<!--        <AttributeBonus index="Armored" value="25"/>-->
+        <!--        <AttributeBonus index="Armored" value="25"/>-->
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
@@ -20397,7 +20415,7 @@
         <Marker Link="Effect/CrucioShockCannonBlast"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-<!--        <AttributeBonus index="Armored" value="30"/>-->
+        <!--        <AttributeBonus index="Armored" value="30"/>-->
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
@@ -20434,7 +20452,7 @@
         <Marker Link="Effect/CrucioShockCannonDirected"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-<!--        <AttributeBonus index="Armored" value="30"/>-->
+        <!--        <AttributeBonus index="Armored" value="30"/>-->
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
@@ -20512,7 +20530,7 @@
     </CEffectDamage>
     <CEffectDamage id="AP_SiegeTankMengskSiegedDummy" parent="DU_WEAP">
         <EditorCategories value="Race:Terran"/>
-<!--        <AttributeBonus index="Armored" value="30"/>-->
+        <!--        <AttributeBonus index="Armored" value="30"/>-->
         <Kind value="Splash"/>
         <KindSplash value="Splash"/>
         <Amount value="100"/>
@@ -21094,7 +21112,7 @@
         <CaseDefault value="AP_GhostMengskEMPSmallSearch"/>
     </CEffectSwitch>
     <CEffectLaunchMissile id="AP_GhostMengskEMPBigLM">
-<!--        <ValidatorArray index="0" value="EMP2TargetFilters"/>-->
+        <!--        <ValidatorArray index="0" value="EMP2TargetFilters"/>-->
         <EditorCategories value="Race:Terran"/>
         <ImpactLocation Value="TargetPoint"/>
         <ImpactEffect value="AP_GhostMengskEMPBigSearch"/>
@@ -21241,7 +21259,7 @@
         <SearchFlags index="CallForHelp" value="1"/>
     </CEffectDamage>
     <CEffectLaunchMissile id="AP_GhostMengskEMPSmallLM">
-<!--        <ValidatorArray index="0" value="EMP2TargetFilters"/>-->
+        <!--        <ValidatorArray index="0" value="EMP2TargetFilters"/>-->
         <EditorCategories value="Race:Terran"/>
         <ImpactLocation Value="TargetPoint"/>
         <ImpactEffect value="AP_GhostMengskEMPSmallSearch"/>
@@ -21489,7 +21507,7 @@
     </CEffectSet>
     <CEffectSet id="AP_TrooperMengskMorphSet">
         <EditorCategories value=""/>
-<!--        <EffectArray value="DropWorkerResourcesSet"/>-->
+        <!--        <EffectArray value="DropWorkerResourcesSet"/>-->
         <EffectArray value="AP_TrooperMengskMorphNoWeaponSet"/>
         <ValidatorArray value="AP_TrooperMengskSCVConverter"/>
     </CEffectSet>
@@ -21706,7 +21724,6 @@
     <CEffectApplyBehavior id="AP_WarpRelocateDestinationAB">
         <EditorCategories value="Race:Protoss"/>
         <Behavior value="AP_WarpRelocateDestination"/>
-        <WhichUnit Value="Target"/>
     </CEffectApplyBehavior>
     <CEffectRemoveBehavior id="AP_WarpRelocatingRB">
         <EditorCategories value="Race:Protoss"/>
@@ -21716,7 +21733,6 @@
     <CEffectRemoveBehavior id="AP_WarpRelocateDestinationRB">
         <EditorCategories value="Race:Protoss"/>
         <BehaviorLink value="AP_WarpRelocateDestination"/>
-        <WhichUnit Value="Target"/>
     </CEffectRemoveBehavior>
     <CEffectModifyUnit id="AP_MatchMissingVitals">
         <VitalArray index="Life">
@@ -21965,7 +21981,7 @@
         <FinalEffect value="AP_MedivacHealRemoveBehaviorSet"/>
         <PeriodicValidator value="AP_MedicMengskHealPeriodicCombine"/>
         <PeriodicEffectArray value="AP_MedicMengskHealModifySet"/>
-        <PeriodicPeriodArray value="0.047619048"/>
+        <PeriodicPeriodArray value="0.0476"/>
     </CEffectCreatePersistent>
     <CEffectSet id="AP_LiberatorMengskWeaponChange">
         <EditorCategories value=""/>
@@ -22161,7 +22177,8 @@
     </CEffectSet>
     <CEffectEnumArea id="AP_GuardianExplosiveSporesSearchArea">
         <SearchFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="1.5" Effect="AP_GuardianExplosiveSporesEndSet"/> <!-- reduced from coop's 2-->
+        <AreaArray Radius="1.5" Effect="AP_GuardianExplosiveSporesEndSet"/>
+        <!-- reduced from coop's 2-->
         <AINotifyFlags index="HurtEnemy" value="1"/>
         <AINotifyFlags index="MinorDanger" value="1"/>
     </CEffectEnumArea>
@@ -22173,7 +22190,8 @@
     <CEffectDamage id="AP_GuardianExplosiveSporesExplodeDamage" parent="DU_WEAP_SPLASH">
         <EditorCategories value="Race:PrimalZerg"/>
         <Kind value="Spell"/>
-        <Amount value="20"/> <!-- reduced from coop's 50-->
+        <Amount value="20"/>
+        <!-- reduced from coop's 50-->
         <Death value="Blast"/>
         <ArmorReduction value="0"/>
         <ValidatorArray value="IsNotPhasedUnit"/>
@@ -22310,7 +22328,7 @@
     </CEffectSet>
     <CEffectApplyBehavior id="AP_KerriganVoidCoopEconDropAB">
         <Behavior value="AP_KerriganVoidCoopEconDrop"/>
-<!--        <ValidatorArray index="0" value="NothaveNoBiomassDrop"/>-->
+        <!--        <ValidatorArray index="0" value="NothaveNoBiomassDrop"/>-->
     </CEffectApplyBehavior>
     <CEffectModifyPlayer id="AP_KR1">
         <EditorCategories value=""/>
@@ -22414,7 +22432,7 @@
     <CEffectSet id="AP_KerriganVoidCoopCrushingGripWaveSet">
         <EffectArray value="AP_PsionicLiftSwitchCoop"/>
         <EffectArray value="AP_PsionicLiftDamageABCoop"/>
-<!--        <EffectArray value="CrushingGripWaveHeroicSlow"/>-->
+        <!--        <EffectArray value="CrushingGripWaveHeroicSlow"/>-->
     </CEffectSet>
     <CEffectSwitch id="AP_PsionicLiftSwitchCoop">
         <EditorCategories value="Race:Zerg"/>
@@ -22451,8 +22469,8 @@
         <Amount value="2.5"/>
     </CEffectDamage>
     <CEffectSwitch id="AP_PsionicLiftControllerBehaviorSwitch">
-<!--        <ValidatorArray value="NotShuttle"/>-->
-<!--        <ValidatorArray value="NotTrain"/>-->
+        <!--        <ValidatorArray value="NotShuttle"/>-->
+        <!--        <ValidatorArray value="NotTrain"/>-->
         <EditorCategories value=""/>
         <CaseArray Validator="AP_IsHeroic" Effect="AP_PsionicLiftSlow"/>
         <CaseArray Validator="AP_GroundUnitFilter" Effect="AP_PsionicLiftUp" FallThrough="1"/>
@@ -22535,10 +22553,9 @@
         <EffectArray value="AP_PsionicLiftControllerShort"/>
     </CEffectSet>
     <CEffectEnumArea id="AP_PsionicLiftRaiseSearchCoop" parent="AP_PsionicLiftRaiseSearch">
-        <AreaArray index="0" Effect="AP_PsionicLiftDoTSet"/>
+        <AreaArray index="0" Radius="1.75" Effect="AP_PsionicLiftDoTSet"/>
     </CEffectEnumArea>
     <CEffectDamage id="AP_PsionicLiftDamageCoop">
-        <SearchFlags index="CallForHelp" value="0"/>
         <Amount value="100"/>
     </CEffectDamage>
     <CEffectApplyBehavior id="AP_ZergStructureRapidRegenAB">

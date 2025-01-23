@@ -71,7 +71,6 @@
     </CAbilEffectTarget>
     <CAbilBuild id="AP_BuildEchidnaWorm">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
-        <FlagArray index="Cancelable" value="1"/>
         <FlagArray index="PeonMaintained" value="0"/>
         <InfoArray index="Build1" Unit="AP_EchidnaWorm" Time="20">
             <Cooldown TimeUse="60"/>
@@ -278,7 +277,6 @@
     </CAbilMorph>
     <CAbilBuild id="AP_BuildNydusWorm">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
-        <FlagArray index="Cancelable" value="1"/>
         <FlagArray index="PeonMaintained" value="0"/>
         <InfoArray index="Build1" Unit="AP_NydusWorm" Time="10">
             <Cooldown TimeUse="30"/>
@@ -455,7 +453,7 @@
     </CAbilMorph>
     <CAbilMorph id="AP_ThorMengskNormalModeFollowedBySiege" parent="AP_ThorMengskNormalMode">
         <Flags index="Interruptible" value="0"/>
-        <InfoArray index="0">
+        <InfoArray index="0" Unit="AP_ThorMengsk" RandomDelayMax="0.5">
             <SectionArray index="Actor">
                 <EffectArray index="Finish" value="AP_ThorMengskSiegeOrderSet"/>
             </SectionArray>
@@ -1088,7 +1086,12 @@
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_DeploySpiderMinesMengsk" parent="AP_DeploySpiderMines">
         <Cost index="0">
-            <Charge CountMax="6" Link="Abil/AP_DeploySpiderMinesMengsk"/>
+            <Charge>
+                <CountMax value="6"/>
+                <CountStart value="3"/>
+                <CountUse value="1"/>
+                <Link value="Abil/AP_DeploySpiderMinesMengsk"/>
+            </Charge>
         </Cost>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_MedivacDoubleBeamHeal">
@@ -3196,12 +3199,9 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <Launch value="ReleaseAtSource"/>
         <Flags index="BestUnit" value="1"/>
-        <InfoArray index="Ammo1" Time="0" Unit="AP_NukeMengsk">
+        <InfoArray index="Ammo1" Unit="AP_NukeMengsk">
             <Charge Link="Abil/AP_ArmSiloWithNukeMengsk"/>
-            <Cooldown Link="Abil/AP_ArmSiloWithNukeMengsk">
-                <TimeStart value="0"/>
-                <TimeUse value="90"/>
-            </Cooldown>
+            <Cooldown Link="Abil/AP_ArmSiloWithNukeMengsk" TimeUse="90"/>
             <Button DefaultButtonFace="AP_NukeMengskArm" Requirements="AP_TrainNukeMengsk"/>
             <Flags index="AutoBuild" value="1"/>
             <Flags index="AutoBuildOn" value="1"/>
@@ -3216,9 +3216,9 @@
             <Charge Link="Abil/AP_ArmSiloWithNukeMengsk"/>
             <Cooldown Link="Abil/AP_ArmSiloWithNukeMengsk"/>
             <Button DefaultButtonFace="AP_NukeMengskArm" Requirements="AP_NukeSiloOccupiedMengsk"/>
-<!--            <Flags index="AutoBuild" value="1"/>-->
-<!--            <Flags index="AutoBuildOn" value="1"/>-->
         </InfoArray>
+        <!--            <Flags index="AutoBuild" value="1"/>-->
+        <!--            <Flags index="AutoBuildOn" value="1"/>-->
         <CalldownEffect value="AP_GhostMengskNukeCalldown"/>
     </CAbilArmMagazine>
     <CAbilMerge id="AP_ArchonWarp">
@@ -4051,7 +4051,7 @@
         <Flags index="AutoCreate" value="1"/>
         <Flags index="Retarget" value="1"/>
         <Leash value="4"/>
-        <InfoArray index="Ammo1" Time="0.1" CountStart="0" Manage="Recall" Unit="AP_CarrierRepairDrone">
+        <InfoArray index="Ammo1" Time="0.1" Manage="Recall" Unit="AP_CarrierRepairDrone">
             <Charge HideCount="1" Link="CarrierRepairDrone" Location="Unit"/>
             <Button DefaultButtonFace="AP_RepairDrones" Requirements="AP_HaveCarrierAiurRepairDrones">
                 <Flags index="ToSelection" value="1"/>
@@ -4063,27 +4063,22 @@
         <EffectArray index="Create" value="AP_CarrierRepairDroneRecall"/>
         <ExternalAngle value="-135"/>
         <ExternalAngle value="135"/>
-        <MaxCount value="0"/>
     </CAbilArmMagazine>
     <CAbilEffectTarget id="AP_CarrierHyperjump">
-        <AbilSetId value="FleetwideJump"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
-        <Effect index="0" value="AP_HyperjumpCreatePrecursor"/>
-        <Flags index="AllowMovement" value="1"/>
+        <!--<Effect index="0" value="AP_HyperjumpCreatePrecursor"/>-->
+        <Effect index="0" value="AP_SkylordJumpSet"/>
         <Flags index="BestUnit" value="0"/>
-        <Flags index="NoDeceleration" value="1"/>
         <Flags index="RequireTargetVision" value="0"/>
         <Cost>
-            <Cooldown TimeUse="120"/>
+            <Cooldown TimeUse="12"/>
         </Cost>
         <Range value="500"/>
+        <Arc value="360"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_CarrierHyperjump" Requirements="AP_HaveSkylordHyperjump"/>
         <!--CmdButtonArray index="Execute" DefaultButtonFace="CarrierHyperjump" Requirements="HaveVoidCarrierHyperjump"/-->
-        <CastIntroTime value="0"/>
-        <CastOutroTime value="6"/>
-        <ShowProgressArray index="Channel" value="1"/>
-        <ProgressButtonArray index="Channel" value="AP_CarrierHyperjump"/>
-        <UninterruptibleArray index="Channel" value="1"/>
+        <PrepTime value="0.125"/>
+        <UninterruptibleArray index="Prep" value="1"/>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_CarrierRepairDroneHeal">
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
@@ -4327,7 +4322,6 @@
     <CAbilEffectTarget id="AP_DisruptorBlink">
         <AbilSetId value="DisruptorBlnk"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
-        <Effect index="0" value="AP_DisruptorBlink"/>
         <Flags index="BestUnit" value="0"/>
         <Flags index="RequireTargetVision" value="0"/>
         <Cost>
@@ -5136,13 +5130,15 @@
     <CAbilArmMagazine id="AP_HeroArmNuke">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <Launch value="ReleaseAtSource"/>
-        <InfoArray index="Ammo1" Time="0" Unit="AP_HeroNuke">
-            <Button DefaultButtonFace="AP_NovaNukeArm" Requirements="AP_TrainNukeHero"/>
+        <InfoArray index="Ammo1" Unit="AP_HeroNuke">
             <Charge Link="Abil/AP_HeroArmNuke"/>
-            <Cooldown Link="Abil/AP_HeroArmNuke" Location="Unit">
-                <TimeUse value="300"/>
+            <Cooldown>
+                <Link value="Abil/AP_HeroArmNuke"/>
+                <Location value="Unit"/>
                 <TimeStart value="300"/>
+                <TimeUse value="300"/>
             </Cooldown>
+            <Button DefaultButtonFace="AP_NovaNukeArm" Requirements="AP_TrainNukeHero"/>
             <Flags index="AutoBuild" value="1"/>
             <Flags index="AutoBuildOn" value="1"/>
         </InfoArray>
@@ -5153,12 +5149,12 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <Launch value="ReleaseAtSource"/>
         <InfoArray index="Ammo1" Time="300" Unit="AP_HeroNuke">
-            <Button DefaultButtonFace="AP_NovaNukeArm" Requirements="AP_NukeSiloOccupied"/>
             <Charge Link="Abil/AP_HeroArmNukeCountDisplay"/>
             <Cooldown Link="Abil/AP_HeroArmNukeCountDisplay"/>
-<!--            <Flags index="AutoBuild" value="1"/>-->
-<!--            <Flags index="AutoBuildOn" value="1"/>-->
+            <Button DefaultButtonFace="AP_NovaNukeArm" Requirements="AP_NukeSiloOccupied"/>
         </InfoArray>
+        <!--            <Flags index="AutoBuild" value="1"/>-->
+        <!--            <Flags index="AutoBuildOn" value="1"/>-->
         <CalldownEffect value="AP_HeroNukeCalldown"/>
     </CAbilArmMagazine>
     <CAbilArmMagazine id="AP_SpectreNukeSiloArmMagazine">
@@ -6192,9 +6188,7 @@
         </CmdButtonArray>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_GravitonBeamMirage" parent="AP_GravitonBeamVoidCampaign">
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_GravitonBeamVoidCampaign" Requirements="AP_HaveMirageGravitonBeam">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
+        <CmdButtonArray index="Execute" Requirements="AP_HaveMirageGravitonBeam"/>
     </CAbilEffectTarget>
     <CAbilMorph id="AP_MorphToBroodLord">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
@@ -6391,7 +6385,7 @@
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_ImmortalShakurasShadowCannonAA" parent="AP_ImmortalShakurasShadowCannon">
         <TargetFilters index="0" value="-;Self,Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_ImmortalShakurasShadowCannon" Requirements="AP_ShowAnnihilatorAerialTracking"/>
+        <CmdButtonArray index="Execute" Requirements="AP_ShowAnnihilatorAerialTracking"/>
     </CAbilEffectTarget>
     <CAbilEffectInstant id="AP_ImmortalBarrierBase">
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
@@ -6568,11 +6562,12 @@
     <CAbilTrain id="AP_StargateTrainRedirect" parent="AP_StargateTrain"/>
     <CAbilWarpTrain id="AP_StargateWarpTrain">
         <InfoArray index="Train1" Time="5" Unit="AP_PhoenixAiur">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6580,11 +6575,12 @@
             <Button DefaultButtonFace="AP_PhoenixAiur" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train2" Time="5" Unit="AP_PhoenixPurifier">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6592,11 +6588,12 @@
             <Button DefaultButtonFace="AP_PhoenixPurifier" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train3" Time="5" Unit="AP_CorsairMP">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6604,11 +6601,12 @@
             <Button DefaultButtonFace="AP_Corsair" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train4" Time="5" Unit="AP_VoidRayShakuras">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6616,11 +6614,12 @@
             <Button DefaultButtonFace="AP_VoidRayShakuras" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train5" Time="5" Unit="AP_VoidRayTaldarim">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6628,11 +6627,12 @@
             <Button DefaultButtonFace="AP_VoidRayTaldarim" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train6" Time="5" Unit="AP_TempestPurifier">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6640,11 +6640,12 @@
             <Button DefaultButtonFace="AP_TempestPurifier" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
         </InfoArray>
         <InfoArray index="Train7" Time="5" Unit="AP_CarrierAiur">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="96"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6652,11 +6653,12 @@
             <Button DefaultButtonFace="AP_CarrierAiur" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
         </InfoArray>
         <InfoArray index="Train8" Time="5" Unit="AP_ArbiterMP">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6664,11 +6666,12 @@
             <Button DefaultButtonFace="AP_Arbiter" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train9" Time="5" Unit="AP_SOAMothershipv4">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="96"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6676,11 +6679,12 @@
             <Button DefaultButtonFace="AP_MothershipTaldarim" State="Restricted" Requirements="AP_TalDarimMothershipRequirements"/>
         </InfoArray>
         <InfoArray index="Train10" Time="5" Unit="AP_ScoutMP">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6688,11 +6692,12 @@
             <Button DefaultButtonFace="AP_Scout" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train11" Time="5" Unit="AP_Oracle">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6700,11 +6705,12 @@
             <Button DefaultButtonFace="AP_Oracle" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train12" Time="5" Unit="AP_VoidRayAiur">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6712,11 +6718,12 @@
             <Button DefaultButtonFace="AP_VoidRayAiur" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train13" Time="5" Unit="AP_VoidRayPurifier">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6724,11 +6731,12 @@
             <Button DefaultButtonFace="AP_VoidRayPurifier" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train14" Time="5" Unit="AP_CarrierTaldarim">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="96"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6736,11 +6744,12 @@
             <Button DefaultButtonFace="AP_CarrierTaldarim" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
         </InfoArray>
         <InfoArray index="Train15" Time="5" Unit="AP_CarrierPurifier">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="96"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6748,11 +6757,12 @@
             <Button DefaultButtonFace="AP_CarrierPurifier" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
         </InfoArray>
         <InfoArray index="Train16" Time="5" Unit="AP_PhoenixTaldarim">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6870,11 +6880,12 @@
     <CAbilTrain id="AP_RoboticsFacilityTrainRedirect" parent="AP_RoboticsFacilityTrain"/>
     <CAbilWarpTrain id="AP_RoboticsFacilityWarpTrain">
         <InfoArray index="Train1" Time="5" Unit="AP_WarpPrism">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="40"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6882,11 +6893,12 @@
             <Button DefaultButtonFace="AP_WarpPrism" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train2" Time="5" Unit="AP_Observer">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="30"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6894,11 +6906,12 @@
             <Button DefaultButtonFace="Observer" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train3" Time="5" Unit="AP_ColossusPurifier">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="60"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6906,11 +6919,12 @@
             <Button DefaultButtonFace="AP_ColossusPurifier" State="Restricted" Requirements="AP_HaveRoboticsBay"/>
         </InfoArray>
         <InfoArray index="Train4" Time="5" Unit="AP_ImmortalAiur">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="44"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6918,11 +6932,12 @@
             <Button DefaultButtonFace="AP_ImmortalAiur" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train5" Time="5" Unit="AP_ColossusTaldarim">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="60"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6930,11 +6945,12 @@
             <Button DefaultButtonFace="AP_ColossusTaldarim" State="Restricted" Requirements="AP_HaveRoboticsBay"/>
         </InfoArray>
         <InfoArray index="Train6" Time="5" Unit="AP_ImmortalShakuras">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="44"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6942,11 +6958,12 @@
             <Button DefaultButtonFace="AP_ImmortalShakuras" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train7" Time="5" Unit="AP_ImmortalTaldarim">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="44"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6954,11 +6971,12 @@
             <Button DefaultButtonFace="AP_ImmortalTaldarim" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train8" Time="5" Unit="AP_Reaver">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="60"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6966,11 +6984,12 @@
             <Button DefaultButtonFace="AP_Reaver" State="Restricted" Requirements="AP_HaveRoboticsBay"/>
         </InfoArray>
         <InfoArray index="Train9" Time="5" Unit="AP_Disruptor">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="45"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -6978,11 +6997,12 @@
             <Button DefaultButtonFace="AP_Disruptor" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train10" Time="5" Unit="AP_ImmortalPurifier">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="44"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -7324,27 +7344,26 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="Raise" Requirements="AP_HaveMothershipTaldarimIntegratedPower"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
         <Flags index="Automatic" value="1"/>
-        <Flags index="IgnorePlacement" value="1"/>
         <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="IgnoreUnitCost" value="1"/>
         <Flags index="IgnoreFood" value="1"/>
+        <Flags index="IgnoreUnitCost" value="1"/>
         <InfoArray Unit="AP_MothershipTaldarim" CollideRange="0"/>
     </CAbilMorph>
     <CAbilEffectTarget id="AP_InduceScopophobia">
         <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
         <Effect index="0" value="AP_ScopophobiaTargetAB"/>
+        <Flags index="AllowMovement" value="1"/>
         <Flags index="AutoCast" value="1"/>
         <Flags index="AutoCastOn" value="1"/>
-        <Flags index="AllowMovement" value="1"/>
         <Cost>
             <Cooldown TimeUse="2"/>
         </Cost>
-        <AutoCastFilters value="Visible,Enemy;Self,Player,Ally,Neutral,Missile,Structure"/>
+        <AutoCastFilters value="Visible;Self,Player,Ally,Neutral,Structure,Missile"/>
         <AutoCastRange value="11"/>
         <AutoCastValidatorArray value="AP_NotHaveScopophobia"/>
         <AutoCastValidatorArray value="IsNotEgg"/>
         <AutoCastValidatorArray value="AP_IsNotLarva"/>
-        <TargetFilters value="Enemy;Self,Player,Ally,Neutral,Structure,Missile,Stasis,Dead,Hidden"/>
+        <TargetFilters value="-;Self,Player,Ally,Neutral,Structure,Missile,Stasis,Dead,Hidden"/>
         <Range value="11"/>
         <Arc value="360"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_Scopophobia" Requirements="AP_HaveObserverScopophobia"/>
@@ -7662,10 +7681,9 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="Raise" Requirements="AP_HaveZergCreepStomach"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
         <Flags index="Automatic" value="1"/>
-        <Flags index="IgnorePlacement" value="1"/>
         <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="IgnoreUnitCost" value="1"/>
         <Flags index="IgnoreFood" value="1"/>
+        <Flags index="IgnoreUnitCost" value="1"/>
         <InfoArray Unit="AP_SpineCrawler" CollideRange="0"/>
     </CAbilMorph>
     <CAbilMorph id="AP_AutoMorphToSporeCrawler">
@@ -7673,10 +7691,9 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="Raise" Requirements="AP_HaveZergCreepStomach"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
         <Flags index="Automatic" value="1"/>
-        <Flags index="IgnorePlacement" value="1"/>
         <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="IgnoreUnitCost" value="1"/>
         <Flags index="IgnoreFood" value="1"/>
+        <Flags index="IgnoreUnitCost" value="1"/>
         <InfoArray Unit="AP_SporeCrawler" CollideRange="0"/>
     </CAbilMorph>
     <CAbilMorphPlacement id="AP_SporeCrawlerRoot">
@@ -8872,7 +8889,6 @@
     </CAbilEffectTarget>
     <CAbilRally id="AP_SIInfestedBunkerRally">
         <EditorCategories value="Race:InfestedTerran,AbilityorEffectType:Structures"/>
-        <CmdButtonArray index="Rally1"/>
         <InfoArray/>
     </CAbilRally>
     <CAbilMorphPlacement id="AP_SIInfestedBunkerRoot" parent="AP_SIBuildingRoot" unit="AP_SIInfestedBunker">
@@ -8890,17 +8906,15 @@
                 <DurationArray index="Duration" value="3"/>
             </SectionArray>
         </InfoArray>
-        <ProgressButton value="AP_SpineCrawlerRootCancel"/>
     </CAbilMorphPlacement>
     <CAbilMorph id="AP_AutoMorphToInfestedBunker">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Structures"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="Raise" Requirements="AP_HaveZergCreepStomach"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
         <Flags index="Automatic" value="1"/>
-        <Flags index="IgnorePlacement" value="1"/>
         <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="IgnoreUnitCost" value="1"/>
         <Flags index="IgnoreFood" value="1"/>
+        <Flags index="IgnoreUnitCost" value="1"/>
         <InfoArray Unit="AP_SIInfestedBunker" CollideRange="0"/>
     </CAbilMorph>
     <CAbilEffectInstant id="AP_SIInfestedBunkerTrainMarine">
@@ -8974,9 +8988,9 @@
         <!--            <Button DefaultButtonFace="SIRefinery"/>-->
         <!--            <ValidatorArray value="HasVespene"/>-->
         <!--        </InfoArray>-->
-                <InfoArray index="Build4" Unit="AP_SIBarracks" Time="60">
-                    <Button DefaultButtonFace="AP_SIBarracks"/>
-                </InfoArray>
+        <InfoArray index="Build4" Unit="AP_SIBarracks" Time="60">
+            <Button DefaultButtonFace="AP_SIBarracks"/>
+        </InfoArray>
         <!--        <InfoArray index="Build5" Unit="SIEngineeringBay" Time="35">-->
         <!--            <Button DefaultButtonFace="SIEngineeringBay" Requirements="HaveSICommandCenter"/>-->
         <!--        </InfoArray>-->
@@ -9011,7 +9025,7 @@
         <Flags index="Select" value="1"/>
         <Flags index="WaitForFood" value="0"/>
         <MorphUnit value="AP_SICocoonInfestedSCV"/>
-        <InfoArray index="Train1" Time="17" Effect="">
+        <InfoArray index="Train1" Time="17">
             <Resource index="Minerals" value="50"/>
             <Button DefaultButtonFace="AP_SISCV">
                 <Flags index="UseDefaultButton" value="1"/>
@@ -10271,7 +10285,7 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_VoidSentryChronoBeam"/>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_VoidSentryChronoBeamMobile" parent="AP_VoidSentryChronoBeam">
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_VoidSentryChronoBeam" Requirements="AP_UseEnergizerMobileChronoBeam"/>
+        <CmdButtonArray index="Execute" Requirements="AP_UseEnergizerMobileChronoBeam"/>
     </CAbilEffectTarget>
     <CAbilMorph id="AP_VoidSentryPhasingMode">
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
@@ -10289,7 +10303,6 @@
     </CAbilMorph>
     <CAbilEffectTarget id="AP_VoidSentryShieldRepair">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <Effect index="0" value="AP_VoidSentryShieldRepair"/>
         <Flags index="AutoCast" value="1"/>
         <Flags index="AutoCastOn" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
@@ -10732,11 +10745,12 @@
     <CAbilWarpTrain id="AP_WarpGateTrain">
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Structures"/>
         <InfoArray index="Train1" Time="5" Unit="AP_ZealotAiur">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -10745,11 +10759,12 @@
             <Button DefaultButtonFace="AP_ZealotAiur" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train2" Time="5" Unit="AP_StalkerShakuras">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="32"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10758,11 +10773,12 @@
         </InfoArray>
         <!-- Warp trains have only 20 slots-->
         <InfoArray index="Train3" Time="5" Unit="AP_Monitor">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="32"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10781,11 +10797,12 @@
         <!--            <Button DefaultButtonFace="WarpInReplicant" State="Restricted" Requirements="HaveVoidSentryReplicant"/>-->
         <!--        </InfoArray>-->
         <InfoArray index="Train4" Time="5" Unit="AP_HighArchonTemplar">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="45"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10793,11 +10810,12 @@
             <Button DefaultButtonFace="AP_HighTemplarAiur" State="Restricted" Requirements="AP_HaveTemplarArchives"/>
         </InfoArray>
         <InfoArray index="Train5" Time="5" Unit="AP_DarkTemplarShakuras">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="45"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10805,11 +10823,12 @@
             <Button DefaultButtonFace="AP_DarkTemplarShakuras" State="Restricted" Requirements="AP_HaveDarkShrine"/>
         </InfoArray>
         <InfoArray index="Train6" Time="5" Unit="AP_SentryAiur">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="32"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10817,11 +10836,12 @@
             <Button DefaultButtonFace="AP_SentryAiur" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
         </InfoArray>
         <InfoArray index="Train7" Time="5" Unit="AP_Adept">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10829,11 +10849,12 @@
             <Button DefaultButtonFace="AP_WarpInAdept" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
         </InfoArray>
         <InfoArray index="Train9" Time="5" Unit="AP_ZealotPurifier">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -10842,11 +10863,12 @@
             <Button DefaultButtonFace="AP_ZealotPurifier" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train10" Time="5" Unit="AP_ZealotShakuras">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeStart value="30"/>
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
@@ -10855,11 +10877,12 @@
             <Button DefaultButtonFace="AP_ZealotShakuras" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train11" Time="5" Unit="AP_AlarakSupplicantWarpTrainDummy">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="21"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10867,11 +10890,12 @@
             <Button DefaultButtonFace="AP_WarpInSupplicant" State="Restricted"/>
         </InfoArray>
         <InfoArray index="Train12" Time="5" Unit="AP_StalkerPurifier">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="32"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10879,11 +10903,12 @@
             <Button DefaultButtonFace="AP_StalkerPurifier" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
         </InfoArray>
         <InfoArray index="Train13" Time="5" Unit="AP_Slayer">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="32"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10891,11 +10916,12 @@
             <Button DefaultButtonFace="AP_Slayer" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
         </InfoArray>
         <InfoArray index="Train14" Time="5" Unit="AP_HighTemplarShakuras">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="45"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10903,11 +10929,12 @@
             <Button DefaultButtonFace="AP_HighTemplarShakuras" State="Restricted" Requirements="AP_HaveTemplarArchives"/>
         </InfoArray>
         <InfoArray index="Train15" Time="5" Unit="AP_HighTemplarTaldarim">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="45"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10915,11 +10942,12 @@
             <Button DefaultButtonFace="AP_HighTemplarTaldarim" State="Restricted" Requirements="AP_HaveTemplarArchives"/>
         </InfoArray>
         <InfoArray index="Train16" Time="5" Unit="AP_DarkTemplarAiur">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="45"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10927,11 +10955,12 @@
             <Button DefaultButtonFace="AP_DarkTemplarAiur" State="Restricted" Requirements="AP_HaveDarkShrine"/>
         </InfoArray>
         <InfoArray index="Train17" Time="5" Unit="AP_DarkTemplarTaldarim">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="45"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10939,11 +10968,12 @@
             <Button DefaultButtonFace="AP_DarkTemplarTaldarim" State="Restricted" Requirements="AP_HaveDarkShrine"/>
         </InfoArray>
         <InfoArray index="Train18" Time="5" Unit="AP_Dragoon">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="32"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10951,11 +10981,12 @@
             <Button DefaultButtonFace="AP_Dragoon" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
         </InfoArray>
         <InfoArray index="Train19" Time="5" Unit="AP_DarkArchon">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="45"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -10963,11 +10994,12 @@
             <Button DefaultButtonFace="AP_HighTemplarShakuras" State="Restricted" Requirements="AP_HaveTemplarArchivesDarkArchon"/>
         </InfoArray>
         <InfoArray index="Train20" Time="5" Unit="AP_SentryPurifier">
-            <Charge Location="Unit">
+            <Charge>
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Link value="WarpGateTrain"/>
+                <Location value="Unit"/>
                 <TimeUse value="32"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
@@ -11317,13 +11349,13 @@
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Flags index="AbortOnAllianceChange" value="0"/>
         <Flags index="AllowMovement" value="1"/>
-<!--        <Flags index="AutoCast" value="1"/>-->
-<!--        <Flags index="AutoCastOn" value="1"/>-->
+        <!--        <Flags index="AutoCast" value="1"/>-->
+        <!--        <Flags index="AutoCastOn" value="1"/>-->
         <Flags index="Chase" value="1"/>
         <Effect index="0" value="AP_Banshee_BlackOpsAirstrikeSet"/>
         <Alignment value="Negative"/>
         <Cost>
-<!--            <Cooldown TimeUse="15"/>-->
+            <!--            <Cooldown TimeUse="15"/>-->
             <Vital index="Energy" value="100"/>
         </Cost>
         <Range value="7"/>
@@ -11553,7 +11585,12 @@
                 <Link value="AP_MercRoachSummon"/>
                 <Location value="Player"/>
             </Charge>
-            <Cooldown Location="Player" TimeStart="300" TimeUse="300" Link="AP_MercRoachSummon"/>
+            <Cooldown>
+                <Link value="AP_MercRoachSummon"/>
+                <Location value="Player"/>
+                <TimeStart value="300"/>
+                <TimeUse value="300"/>
+            </Cooldown>
             <Button DefaultButtonFace="AP_SummonMercRoach" State="Restricted" Requirements="AP_ZergMercCompoundSC2"/>
             <Unit value="AP_MercRoach"/>
             <Unit value="AP_MercRoach"/>
@@ -12087,7 +12124,7 @@
     <CAbilEffectTarget id="AP_DefilerSCBWPredatoryConsumption" parent="AP_DefilerSCBWConsumption">
         <TargetFilters index="0" value="Biological;Self,Structure,Heroic,Missile,Uncommandable,Stasis,Dead,Hidden,Hallucination,Invulnerable"/>
         <Effect index="0" value="AP_DefilerPredatoryConsumption"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_DefilerConsumption" Requirements="AP_HaveDefilerPredatoryConsumption"/>
+        <CmdButtonArray index="Execute" Requirements="AP_HaveDefilerPredatoryConsumption"/>
     </CAbilEffectTarget>
     <CAbilAugment id="AP_TornadoMissile">
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
@@ -12228,8 +12265,8 @@
     <CAbilEffectInstant id="AP_VoidRaySwarmDamageBoost">
         <Flags index="AutoCast" value="1"/>
         <Flags index="AutoCastOn" value="1"/>
-        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Flags index="Transient" value="1"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Cost>
             <Cooldown TimeUse="60"/>
         </Cost>
@@ -12419,8 +12456,8 @@
             <Flags index="AutoBuild" value="1"/>
             <Flags index="AutoBuildOn" value="1"/>
         </InfoArray>
-        <EffectArray index="Launch" value="AP_VoidRayPurifierSecondaryBeamLaunchSet"/>
         <EffectArray index="Death" value="TimedLifeFate"/>
+        <EffectArray index="Launch" value="AP_VoidRayPurifierSecondaryBeamLaunchSet"/>
         <EffectArray index="Recall" value="TimedLifeFate"/>
         <EffectArray index="Return" value="TimedLifeFate"/>
         <MaxCount value="3"/>
@@ -12468,7 +12505,6 @@
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <CmdButtonArray index="WithTarget" DefaultButtonFace="AP_MorphlingToTyrannozorMerge" State="Restricted" Requirements="AP_HaveTyrannozorSupplyAndUltraliskCavern"/>
-        <Flags index="IgnoreUnitCost" value="0"/>
         <Info Unit="AP_Tyrannozor" Time="78">
             <Resource index="Minerals" value="-100"/>
         </Info>
@@ -12486,8 +12522,7 @@
         <Flags index="AutoCastOn" value="1"/>
         <Flags index="Transient" value="1"/>
         <Cost>
-            <Charge Link="Abil/AP_TyrannozorBarrageOfSpikes"/>
-            <Cooldown Link="Abil/AP_TyrannozorBarrageOfSpikes" Location="Unit" TimeUse="10"/>
+            <Cooldown Location="Unit" TimeUse="10"/>
         </Cost>
         <Arc value="360"/>
         <AutoCastRange value="2"/>
@@ -12548,17 +12583,17 @@
     <CAbilEffectInstant id="AP_MercCompoundInfantry">
         <Effect index="0" value="AP_MercCompoundInfantryTabSet"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_MercInfantry" Requirements="AP_MercCompoundCanSwitchInfantry"/>
-        <Cost index="0"/>
+        <Cost/>
     </CAbilEffectInstant>
     <CAbilEffectInstant id="AP_MercCompoundVehicles">
         <Effect index="0" value="AP_MercCompoundVehiclesTabSet"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_MercVehicle" Requirements="AP_MercCompoundCanSwitchVehicles"/>
-        <Cost index="0"/>
+        <Cost/>
     </CAbilEffectInstant>
     <CAbilEffectInstant id="AP_MercCompoundStarships">
         <Effect index="0" value="AP_MercCompoundStarshipsTabSet"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_MercShip" Requirements="AP_MercCompoundCanSwitchStarships"/>
-        <Cost index="0"/>
+        <Cost/>
     </CAbilEffectInstant>
     <CAbilQueue id="AP_que7">
         <EditorCategories value="Race:Neutral,AbilityorEffectType:Structures"/>
@@ -12567,17 +12602,17 @@
     <CAbilEffectInstant id="AP_ZergMercCompoundBroodWar">
         <Effect index="0" value="AP_ZergMercCompoundBroodWarTabSet"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_ZergMercBroodWar" Requirements="AP_ZergMercCompoundCanSwitchBroodWar"/>
-        <Cost index="0"/>
+        <Cost/>
     </CAbilEffectInstant>
     <CAbilEffectInstant id="AP_ZergMercCompoundSC2">
         <Effect index="0" value="AP_ZergMercCompoundSC2TabSet"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_ZergMercSC2" Requirements="AP_ZergMercCompoundCanSwitchSC2"/>
-        <Cost index="0"/>
+        <Cost/>
     </CAbilEffectInstant>
     <CAbilEffectInstant id="AP_ZergMercCompoundInfested">
         <Effect index="0" value="AP_ZergMercCompoundInfestedTabSet"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_ZergMercInfested" Requirements="AP_ZergMercCompoundCanSwitchInfested"/>
-        <Cost index="0"/>
+        <Cost/>
     </CAbilEffectInstant>
     <CAbilMorph id="AP_BurrowMercZerglingDown">
         <AbilSetId value="BrwD"/>
@@ -12726,8 +12761,9 @@
         <Effect index="0" value="AP_HunterlingLeapLaunchMissile"/>
         <Cost>
             <Charge Link=""/>
-            <Cooldown TimeUse="12"/> <!-- increased from 4 vanilla-->
+            <Cooldown TimeUse="12"/>
         </Cost>
+        <!-- increased from 4 vanilla-->
         <Range value="10"/>
         <!--ErrorAlert value="Error/AP_LeapAttackError"/-->
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_LeapAttack"/>
@@ -12868,7 +12904,6 @@
     </CAbilEffectTarget>
     <CAbilEffectInstant id="AP_BattlecruiserShieldRestore">
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
-        <Effect index="0" value="AP_BattlecruiserShieldRestore"/>
         <Flags index="AutoCast" value="1"/>
         <Flags index="TransientPreferred" value="1"/>
         <Cost>
@@ -12904,8 +12939,8 @@
         </InfoArray>
     </CAbilTrain>
     <CAbilTrain id="AP_EliteFactoryTrain">
-    <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
-    <Range value="5"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <Range value="5"/>
         <InfoArray index="Train1" Time="45">
             <Button DefaultButtonFace="AP_SiegeTankMengsk" State="Restricted"/>
             <Unit value="AP_SiegeTankMengsk"/>
@@ -12926,7 +12961,6 @@
         <FlagArray index="InstantPlacement" value="1"/>
         <FlagArray index="PeonDisableAbils" value="1"/>
         <FlagArray index="ShowProgress" value="1"/>
-        <Name value="Abil/Name/AP_SITerranAddOns"/>
     </CAbilBuild>
     <CAbilBuild id="AP_SIFactoryAddOns" parent="AP_SITerranAddOns">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
@@ -13049,7 +13083,7 @@
         <Flags index="Select" value="1"/>
         <Flags index="WaitForFood" value="0"/>
         <MorphUnit value="AP_SICocoonInfestedSiegeTank"/>
-        <InfoArray index="Train1" Time="32" Effect="">
+        <InfoArray index="Train1" Time="32">
             <Resource index="Minerals" value="200"/>
             <Resource index="Vespene" value="125"/>
             <Button DefaultButtonFace="AP_SISiegeTank"/>
@@ -13187,7 +13221,7 @@
         <Flags index="Select" value="1"/>
         <Flags index="WaitForFood" value="0"/>
         <MorphUnit value="AP_SICocoonInfestedDiamondBack"/>
-        <InfoArray index="Train1" Time="32" Effect="">
+        <InfoArray index="Train1" Time="32">
             <Resource index="Minerals" value="225"/>
             <Resource index="Vespene" value="100"/>
             <Button DefaultButtonFace="AP_SIDiamondBack"/>
@@ -13225,7 +13259,7 @@
         <Flags index="Select" value="1"/>
         <Flags index="WaitForFood" value="0"/>
         <MorphUnit value="AP_SICocoonInfestedBanshee"/>
-        <InfoArray index="Train1" Time="43" Effect="">
+        <InfoArray index="Train1" Time="43">
             <Resource index="Minerals" value="150"/>
             <Resource index="Vespene" value="100"/>
             <Button DefaultButtonFace="Aberration"/>
@@ -13302,7 +13336,7 @@
         <Flags index="Select" value="1"/>
         <Flags index="WaitForFood" value="0"/>
         <MorphUnit value="AP_SICocoonInfestedLiberator"/>
-        <InfoArray index="Train1" Time="43" Effect="">
+        <InfoArray index="Train1" Time="43">
             <Resource index="Minerals" value="150"/>
             <Resource index="Vespene" value="125"/>
             <Button DefaultButtonFace="AP_SILiberator"/>
@@ -14068,8 +14102,8 @@
         <InfoTooltipPriority value="1"/>
         <Effect index="0" value="AP_WraithMengskResonatingFeedbackInterferenceSwitchInitial"/>
         <Flags index="AllowMovement" value="1"/>
-        <Flags index="ChannelingMinimum" value="0"/>
         <Flags index="AutoCast" value="1"/>
+        <Flags index="ChannelingMinimum" value="0"/>
         <Cost>
             <Vital index="Energy" value="75"/>
         </Cost>
@@ -14109,8 +14143,9 @@
         <Alignment value="Negative"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Cost>
-            <Cooldown Link="AP_GuardianExplosiveSpores" TimeUse="30"/> <!-- increased from coop's 10-->
+            <Cooldown Link="AP_GuardianExplosiveSpores" TimeUse="30"/>
         </Cost>
+        <!-- increased from coop's 10-->
         <Range value="9"/>
         <CastOutroTime value="0.35"/>
         <TargetFilters value="Ground,Visible;Self,Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
@@ -14155,7 +14190,7 @@
         <CmdButtonArray index="On" DefaultButtonFace="AP_BansheeMengskNightAssaultOn" Requirements="AP_HaveBansheeMengskVeterancyLevel4">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="Off" DefaultButtonFace="AP_BansheeMengskNightAssaultOff" Requirements="">
+        <CmdButtonArray index="Off" DefaultButtonFace="AP_BansheeMengskNightAssaultOff">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="Toggle" value="1"/>
@@ -14188,10 +14223,9 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="Raise" Requirements="AP_HaveZergCreepStomach"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
         <Flags index="Automatic" value="1"/>
-        <Flags index="IgnorePlacement" value="1"/>
         <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="IgnoreUnitCost" value="1"/>
         <Flags index="IgnoreFood" value="1"/>
+        <Flags index="IgnoreUnitCost" value="1"/>
         <InfoArray Unit="AP_SIMissileTurret" CollideRange="0"/>
     </CAbilMorph>
     <CAbilEffectInstant id="AP_KerriganVoidCoopEconDrop">
@@ -14368,10 +14402,9 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="Raise" Requirements="AP_HaveHiveClusterMaturation"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
         <Flags index="Automatic" value="1"/>
-        <Flags index="IgnorePlacement" value="1"/>
         <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="IgnoreUnitCost" value="1"/>
         <Flags index="IgnoreFood" value="1"/>
+        <Flags index="IgnoreUnitCost" value="1"/>
         <InfoArray Unit="AP_Hive" CollideRange="0"/>
     </CAbilMorph>
     <CAbilAttack id="AP_AttackAllowsInvulnerable">
@@ -14379,7 +14412,6 @@
         <AcquireFilters value="-;Player,Ally,Neutral,Dead,Hidden,Benign"/>
         <MinAttackSpeedMultiplier value="0.25"/>
         <MaxAttackSpeedMultiplier value="128"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Attack"/>
     </CAbilAttack>
     <CAbilEffectTarget id="AP_YggdrasilAssimilate">
         <Alignment value="Positive"/>
@@ -14416,7 +14448,6 @@
         <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
         <FlagArray index="Cancelable" value="0"/>
         <FlagArray index="IgnoreUnitCost" value="1"/>
-        <FlagArray index="Interruptible" value="0"/>
         <FlagArray index="PeonMaintained" value="0"/>
         <FlagArray index="RequireFacing" value="1"/>
         <InfoArray index="Build1" Unit="AP_Hatchery" Time="12">
